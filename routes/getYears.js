@@ -12,7 +12,7 @@ module.exports = (app) => {
 
             res.send(years)
 
-            console.log(years)
+            // console.log(years)
         })
 
     })

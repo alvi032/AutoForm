@@ -13,8 +13,7 @@ module.exports = (app) => {
             let model = [...setModel]
             model.sort()
 
-            console.log(model)
-            res.send('done')
+            res.send(model)
         })
     })
 }

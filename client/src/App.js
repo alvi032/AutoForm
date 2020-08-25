@@ -277,12 +277,13 @@ class App extends Component {
 					<S2VehicleYear
 						yearForVehicleName={this.yearForVehicleName}
 						zipCodeCity={this.state.zipCodeCity}
-						Vehicle_1_Year={(value) =>
-							this.setState({ postData: { ...this.state.postData, Vehicle_1_Year: value } })
+						Vehicle_1_Year={(value) => {
+							this.setState({postData: {...this.state.postData, Vehicle_1_Year: value}})
+						}
 						}
 					/>
 					<S3VehicleName
-						year={this.state.year}
+						year={this.state.postData.Vehicle_1_Year}
 						nameForVehicalModel={this.nameForVehicalModel}
 						Vehicle_1_Make={(value) =>
 							this.setState({ postData: { ...this.state.postData, Vehicle_1_Make: value } })

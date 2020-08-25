@@ -12,13 +12,15 @@ class S3VehicleName extends Component {
 		};
 	}
 
-	UNSAFE_componentWillReceiveProps = (newProps) => {
-		axios.post('/getmake', this.props.year)
-			.then(res => {
-				this.setState({ names: res.data });
-			})
-			.catch(err => console.log(err))
+	UNSAFE_componentWillReceiveProps = (newprops) => {
 
+		if(newprops.year > 0){
+			axios.post('/getmake', {year: newprops.year})
+				.then(res => {
+					this.setState({ names: res.data });
+				})
+				.catch(err => console.log(err))
+		}
 	};
 
 	createVehicleNameBoxes = () => {

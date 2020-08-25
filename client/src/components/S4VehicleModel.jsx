@@ -10,7 +10,7 @@ class S4VehicleModel extends Component {
 	}
 
 	UNSAFE_componentWillReceiveProps = (newProps) => {
-		axios.post('/getmodel', 'hello')
+		axios.post('/getmodel', {year: newProps.searchModel.year, make: newProps.searchModel.make})
 			.then(res => this.setState({ models: res.data }))
 			.catch(err => console.log(err))
 	};

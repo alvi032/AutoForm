@@ -3,7 +3,7 @@ const car = require('../models/Car')
 module.exports = (app) => {
     app.post('/getmake', (req, res) => {
         let makeYear = req.body.year
-
+        console.log(req.body)
         car.find({model_year: makeYear}, (err, data) => {
             if (err) throw err
 
@@ -11,7 +11,7 @@ module.exports = (app) => {
             let makeSet = new Set(getMake)
             let make = [...makeSet]
             make.sort()
-            console.log(make)
+
             res.send(make)
         })
     })
