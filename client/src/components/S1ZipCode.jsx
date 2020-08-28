@@ -1,37 +1,58 @@
 import React, { Component, useState } from "react";
 import { Input, Button, message, Form } from "antd";
-import ZipCodeData from "../Assets/zipcode-data.json";
+// import ZipCodeData from "../Assets/zipcode-data.json";
 import "./S1ZipCode.css";
 import { data } from "jquery";
+import axios from 'axios'
 
 class S1ZipCode extends Component {
+
+	state = {
+		zipcodes: [],
+		getZip: ''
+	};
+
 	onFinish = (value) => {
 		var check = false;
-		ZipCodeData.map(
-			(data) =>
-				(data.zip === value.zipcode.number || data.zip === Number(value.zipcode.number)) &&
-				((check = true),
-				this.props.zipCodeCity(data.city),
-				this.props.Driver_1_Zip(Number(value.zipcode.number)),
-				this.props.Driver_1_City(data.city),
-				this.props.Driver_1_State(data.state_id),
-				this.props.Driver_1_Licensed_State(data.state_id),
-				this.props.nextStep())
-		);
-		if (check === false) {
-			message.error("Please Enter A Valid Zipcode!");
-		}
+
+		console.log("values is " + value.zipcode.number)
+
+		axios.post('/returnzip', {zipCode: value.zipcode.number})
+			.then(res => {
+				(this.setState({getZip: res.data}, () => {
+					// console.log(this.state.getZip)
+				}))
+				// console.log(this.state.getZip)
+				console.log(this.props.Driver_1_City)
+				this.props.zipCodeCity(this.state.getZip.city)
+				this.props.Driver_1_Zip(Number(value.zipcode.number))
+				this.props.Driver_1_City(this.state.getZip.city)
+				this.props.Driver_1_State(this.state.getZip.state_id)
+				this.props.Driver_1_Licensed_State(this.state.getZip.state_id)
+				this.props.nextStep()
+
+			})
+			.catch((err) => message.error("Please Enter A Valid Zipcode!"))
+
 	};
 
 	checkZipCode = (rule, value) => {
 		var check = false;
-		ZipCodeData.map((data) => (data.zip === value.number || data.zip === Number(value.number)) && (check = true));
+		this.state.zipcodes.map((data) => (data === value.number || data === Number(value.number)) && (check = true));
 
 		if (check === true) {
 			return Promise.resolve();
 		}
 		return Promise.reject("Please Enter A Valid Zipcode!");
 	};
+
+	componentDidMount = () => {
+		axios.get('/getzip')
+			.then(res=> {
+				this.setState({zipcodes: res.data}, () => console.log(this.state.zipcodes))
+				// console.log(res.data)
+			})
+	}
 
 	render() {
 		return (

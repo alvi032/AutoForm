@@ -5,8 +5,7 @@ module.exports = (app) => {
         zipcode.find({}, (err, data) => {
             let getZip = data.map(({zip}) => zip)
 
-            console.log(getZip)
-            res.send('done')
+            res.send(getZip)
         })
     })
 }
